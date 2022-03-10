@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/product_list.dart';
 
 import './screens/product_overview_screen.dart';
+import './screens/product_detail_screen.dart';
+import './utils/app_route.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+Map<int, Color> color = {
+  50: Color.fromRGBO(51, 51, 51, .1),
+  100: Color.fromRGBO(51, 51, 51, .2),
+  200: Color.fromRGBO(51, 51, 51, .3),
+  300: Color.fromRGBO(51, 51, 51, .4),
+  400: Color.fromRGBO(51, 51, 51, .5),
+  500: Color.fromRGBO(51, 51, 51, .6),
+  600: Color.fromRGBO(51, 51, 51, .7),
+  700: Color.fromRGBO(51, 51, 51, .8),
+  800: Color.fromRGBO(51, 51, 51, .9),
+  900: Color.fromRGBO(51, 51, 51, 1),
+};
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -12,22 +29,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (_) => ProductList(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: MaterialColor(0xFF515151, color),
+          accentColor: Color.fromARGB(255, 35, 192, 183),
+          fontFamily: "Lato",
+        ),
+        home: ProductOverviewScreen(),
+        debugShowCheckedModeBanner: false,
+        routes: {
+          AppRoutes.PRODUCT_DETAIL: (context) => ProductDetailScreen(),
+        },
       ),
-      home: ProductOverviewScreen(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
