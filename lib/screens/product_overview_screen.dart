@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shop/models/product_list.dart';
 import '../components/product_grid.dart';
 
-class ProductOverviewScreen extends StatelessWidget {
+class ProductOverviewScreen extends StatefulWidget {
   ProductOverviewScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<ProductList>(context);
+  State<ProductOverviewScreen> createState() => _ProductOverviewScreenState();
+}
 
+class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  bool showFavoritesOnly = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Minha Loja"),
@@ -26,18 +29,20 @@ class ProductOverviewScreen extends StatelessWidget {
               ),
             ],
             onSelected: (int selectedValue) {
-              if (selectedValue == 0) {
-                provider.showAll();
-              } else {
-                provider.showFavoritesOnly();
-              }
+              setState(() {
+                if (selectedValue == 0) {
+                  showFavoritesOnly = false;
+                } else {
+                  showFavoritesOnly = true;
+                }
+              });
             },
           ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: ProductGrid(),
+        child: ProductGrid(showFavoritesOnly),
       ),
     );
   }
